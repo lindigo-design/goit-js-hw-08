@@ -66,7 +66,7 @@ const images = [
 
 const gallery = document.querySelector('.gallery');
 
-const galleryMarkup = images
+const markup = images
   .map(
     ({ preview, original, description }) => `
       <li class="gallery-item">
@@ -74,7 +74,6 @@ const galleryMarkup = images
           <img
             class="gallery-image"
             src="${preview}"
-            data-source="${original}"
             alt="${description}"
           />
         </a>
@@ -83,25 +82,20 @@ const galleryMarkup = images
   )
   .join('');
 
-gallery.insertAdjacentHTML('beforeend', galleryMarkup);
+gallery.insertAdjacentHTML('beforeend', markup);
 
-gallery.addEventListener('click', onGalleryClick);
-
-function onGalleryClick(event) {
-  event.preventDefault();
-
-  const image = event.target.closest('.gallery-image');
-
-  if (!image) {
-    return;
-  }
-
-  const largeImageURL = image.dataset.source;
-  const altText = image.alt;
-
-  const instance = basicLightbox.create(`
-    <img src="${largeImageURL}" alt="${altText}" width="1112" />
-  `);
-
-  instance.show();
-}
+new SimpleLightbox('.gallery a', {
+  captions: true,
+  captionsData: 'alt',
+  captionDelay: 250,
+  captionPosition: 'bottom',
+  showCounter: true,
+  enableKeyboard: true,
+  nav: true,
+  close: true,
+  closeText: '×',
+  navText: ['‹', '›'],
+  animationSpeed: 250,
+  overlayOpacity: 0.8,
+  scrollZoom: false,
+});
