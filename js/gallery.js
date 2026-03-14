@@ -74,6 +74,7 @@ const markup = images
           <img
             class="gallery-image"
             src="${preview}"
+            data-source="${original}"
             alt="${description}"
           />
         </a>
@@ -84,18 +85,20 @@ const markup = images
 
 gallery.insertAdjacentHTML('beforeend', markup);
 
-new SimpleLightbox('.gallery a', {
-  captions: true,
-  captionsData: 'alt',
-  captionDelay: 250,
-  captionPosition: 'bottom',
-  showCounter: true,
-  enableKeyboard: true,
-  nav: true,
-  close: true,
-  closeText: '×',
-  navText: ['‹', '›'],
-  animationSpeed: 250,
-  overlayOpacity: 0.8,
-  scrollZoom: false,
-});
+gallery.addEventListener('click', onGalleryClick);
+
+function onGalleryClick(event) {
+  event.preventDefault();
+
+  const image = event.target.closest('.gallery-image');
+
+  if (!image) {
+    return;
+  }
+
+  const instance = basicLightbox.create(`
+    <img src="${image.dataset.source}" alt="${image.alt}">
+  `);
+
+  instance.show();
+}
