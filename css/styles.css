@@ -39,7 +39,7 @@ body {
 /* ===== MODAL ===== */
 
 .basicLightbox {
-  background: rgba(46, 47, 66, 0.8);
+  background: rgba(46, 47, 66, 0.3);
 }
 
 .basicLightbox__placeholder {
